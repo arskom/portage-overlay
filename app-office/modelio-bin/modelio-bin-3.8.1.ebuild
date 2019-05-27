@@ -2,23 +2,18 @@
 # Distributed under the terms of the GNU General Public License v2
 
 EAPI=7
-CHROMIUM_LANGS="
-	be bg bn ca cs da de el en-GB en-US es-419 es fil fi fr-CA fr hi hr hu id
-	it ja ko lt lv ms nb nl pl pt-BR pt-PT ro ru sk sr sv sw ta te th tr uk vi
-	zh-CN zh-TW
 
-"
-inherit chromium-2 multilib unpacker xdg-utils
+inherit unpacker xdg-utils
 
-DESCRIPTION="A fast and secure web browser"
-HOMEPAGE="https://www.opera.com/"
-LICENSE="OPERA-2014"
+DESCRIPTION="ModelIO Modelling Package"
+HOMEPAGE="https://www.modelio.org/"
+LICENSE="GPL-2"
 SLOT="0"
 SRC_URI="
 	https://www.modelio.org/download/send/31-modelio-3-8-1/147-modelio-3-8-1-debian-ubuntu-64-bit.html
 "
 
-KEYWORDS="~amd64"
+KEYWORDS="~amd64 amd64"
 
 RDEPEND="
 	dev-libs/glib:2
@@ -62,6 +57,16 @@ src_prepare() {
 
 src_install() {
 	mv * "${D}" || die
+
+	MODELIO_VERSION="3.8"
+	MODELIO_PATH="/usr/lib/modelio-open-source${MODELIO_VERSION}"
+	MODELIO_LNK="/usr/bin/modelio-open-source${MODELIO_VERSION}"
+	echo "${ED}/${MODELIO_PATH}/modelio"
+
+	dodir "usr/bin"
+	fperms a+x "${MODELIO_PATH}/modelio"
+	fperms a+x "${MODELIO_PATH}/modelio.sh"
+	dosym "${MODELIO_PATH}/modelio.sh" "${MODELIO_LNK}"
 }
 
 pkg_postrm() {
