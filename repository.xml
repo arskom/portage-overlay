@@ -1,8 +1,7 @@
 <?xml version="1.0" ?>
-
 <repositories version="1.0">
 	<repo priority="50" quality="experimental" status="unofficial">
-		<name>Arskom Ltd.</name>
+		<name>arskom-overlay</name>
 		<description>Arskom Portage Public Overlay</description>
 		<homepage>https://github.com/arskom/portage-overlay</homepage>
 		<owner>
@@ -11,4 +10,3 @@
 		<source type="git">https://github.com/arskom/portage-overlay.git</source>
 	</repo>
 </repositories>
-
