@@ -1,0 +1,62 @@
+# Config file for /etc/init.d/gerrit
+
+#
+# Directory where Jenkins store its configuration and working
+# files (checkouts, build reports, artifacts, ...).
+#
+GERRIT_HOME="/var/lib/gerrit/home"
+
+#
+# Options to pass to java when running Jenkins.
+#
+GERRIT_JAVA_OPTIONS="-Djava.awt.headless=true"
+
+#
+# Port Jenkins is listening on.
+#
+GERRIT_PORT="8080"
+
+#
+# Debug level for logs -- the higher the value, the more verbose.
+# 5 is INFO.
+#
+GERRIT_DEBUG_LEVEL="5"
+
+#
+# Whether to enable access logging or not.
+#
+GERRIT_ENABLE_ACCESS_LOG="no"
+
+#
+# Maximum number of HTTP worker threads.
+#
+GERRIT_HANDLER_MAX="100"
+
+#
+# Maximum number of idle HTTP worker threads.
+#
+GERRIT_HANDLER_IDLE="20"
+
+#
+# Pass arbitrary arguments to Jenkins.
+# Eg.: --httpListenAddress=127.0.0.1 --prefix=/gerrit
+# Full option list: java -jar gerrit.war --help
+#
+GERRIT_ARGS=""
+
+#
+# User
+#
+GERRIT_USER=gerrit
+
+
+
+#
+# Pid File 
+#
+GERRIT_PIDFILE="/var/run/gerrit.pid"
+
+#
+# War File
+#
+GERRIT_WAR="/opt/gerrit/gerrit.war"

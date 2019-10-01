@@ -1,0 +1,17 @@
+/var/log/gerrit/gerrit.log /var/log/gerrit/access_log {
+    compress
+    dateext
+    maxage 365
+    rotate 99
+    size=+4096k
+    notifempty
+    missingok
+    create 644
+    postrotate
+        [ -r /etc/conf.d/gerrit ] && . /etc/conf.d/gerrit
+        if [ -s /var/run/gerrit.pid ]; then
+            JPID=$(cat /var/run/gerrit.pid)
+            test -n "$(find /proc/$JPID -maxdepth 0 -user ${RUN_AS:-gerrit} 2>/dev/null)" && kill -s ALRM $JPID || :
+        fi
+    endscript
+}

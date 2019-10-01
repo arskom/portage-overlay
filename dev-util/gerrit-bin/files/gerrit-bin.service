@@ -1,0 +1,10 @@
+[Unit]
+Description=Jenkins Daemon
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/java -Djava.awt.headless=true -DGERRIT_HOME=/var/lib/gerrit/home -jar /opt/gerrit/gerrit.war --daemon --logfile=/var/log/gerrit/gerrit.log --httpPort=8080 --debug=5 --handlerCountMax=100 --handlerCountMaxIdle=20 --accessLoggerClassName=winstone.accesslog.SimpleAccessLogger --simpleAccessLogger.format=combined --simpleAccessLogger.file=/var/log/gerrit/access_log
+User=gerrit
+
+[Install]
+WantedBy=multi-user.target

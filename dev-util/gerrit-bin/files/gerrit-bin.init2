@@ -1,0 +1,52 @@
+#!/sbin/openrc-run
+
+depend() {
+    need net
+    use dns logger mysql postgresql
+}
+
+checkconfig() {
+    if [ ! -n "$GERRIT_HOME" ] ; then
+        eerror "GERRIT_HOME not configured"
+        return 1
+    fi
+    if [ ! -d "$GERRIT_HOME" ] ; then
+        checkpath -q -d -o gerrit:gerrit -m 0755 "$GERRIT_HOME" || return 1
+    fi
+    return 0
+}
+
+start() {
+    checkconfig || return 1
+
+    JAVA_HOME=`java-config --jre-home`
+    COMMAND=$JAVA_HOME/bin/java
+
+    JAVA_PARAMS="$GERRIT_JAVA_OPTIONS -DGERRIT_HOME=$GERRIT_HOME -jar $GERRIT_WAR"
+
+    # Don't use --daemon here, because in this case stop will not work
+    PARAMS="--logfile=/var/log/gerrit/gerrit.log"
+    [ -n "$GERRIT_PORT" ] && PARAMS="$PARAMS --httpPort=$GERRIT_PORT"
+    [ -n "$GERRIT_DEBUG_LEVEL" ] && PARAMS="$PARAMS --debug=$GERRIT_DEBUG_LEVEL"
+    [ -n "$GERRIT_HANDLER_STARTUP" ] && PARAMS="$PARAMS --handlerCountStartup=$GERRIT_HANDLER_STARTUP"
+    [ -n "$GERRIT_HANDLER_MAX" ] && PARAMS="$PARAMS --handlerCountMax=$GERRIT_HANDLER_MAX"
+    [ -n "$GERRIT_HANDLER_IDLE" ] && PARAMS="$PARAMS --handlerCountMaxIdle=$GERRIT_HANDLER_IDLE"
+    [ -n "$GERRIT_ARGS" ] && PARAMS="$PARAMS $GERRIT_ARGS"
+
+    if [ "$GERRIT_ENABLE_ACCESS_LOG" = "yes" ]; then
+        PARAMS="$PARAMS --accessLoggerClassName=winstone.accesslog.SimpleAccessLogger --simpleAccessLogger.format=combined --simpleAccessLogger.file=/var/log/gerrit/access_log"
+    fi
+
+    ebegin "Starting ${SVCNAME}"
+    start-stop-daemon --start --quiet --background \
+        --make-pidfile --pidfile $GERRIT_PIDFILE \
+        --user ${GERRIT_USER} \
+        --exec "${COMMAND}" -- $JAVA_PARAMS $PARAMS
+    eend $?
+}
+
+stop() {
+    ebegin "Stopping ${SVCNAME}"
+    start-stop-daemon --stop --quiet --pidfile $GERRIT_PIDFILE
+    eend $?
+}
