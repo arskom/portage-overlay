@@ -2,12 +2,7 @@
 <!DOCTYPE pkgmetadata SYSTEM "http://www.gentoo.org/dtd/metadata.dtd">
 <pkgmetadata>
 	<maintainer type="person">
-		<email>patrick@gentoo.org</email>
-		<name>Patrick Lauer</name>
-	</maintainer>
-	<maintainer type="person">
-		<email>graaff@gentoo.org</email>
-		<name>Hans de Graaff</name>
-		<description>lts versions</description>
+		<email>burak@arskom.com.tr</email>
+		<name>Burak Arslan</name>
 	</maintainer>
 </pkgmetadata>
