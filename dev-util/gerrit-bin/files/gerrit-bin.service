@@ -1,5 +1,5 @@
 [Unit]
-Description=Jenkins Daemon
+Description=Gerrit Daemon
 
 [Service]
 Type=forking

@@ -1,18 +1,18 @@
 # Config file for /etc/init.d/gerrit
 
 #
-# Directory where Jenkins store its configuration and working
+# Directory where Gerrit store its configuration and working
 # files (checkouts, build reports, artifacts, ...).
 #
 GERRIT_HOME="/var/lib/gerrit/home"
 
 #
-# Options to pass to java when running Jenkins.
+# Options to pass to java when running Gerrit.
 #
 GERRIT_JAVA_OPTIONS="-Djava.awt.headless=true"
 
 #
-# Port Jenkins is listening on.
+# Port Gerrit is listening on.
 #
 GERRIT_PORT="8080"
 
@@ -38,7 +38,7 @@ GERRIT_HANDLER_MAX="100"
 GERRIT_HANDLER_IDLE="20"
 
 #
-# Pass arbitrary arguments to Jenkins.
+# Pass arbitrary arguments to Gerrit.
 # Eg.: --httpListenAddress=127.0.0.1 --prefix=/gerrit
 # Full option list: java -jar gerrit.war --help
 #
