@@ -114,6 +114,7 @@ done
 unset x
 
 PATCHES=(
+	"${FILESDIR}"/${PN}-4.14.0-libclangformat-ide.patch
 )
 
 pkg_setup() {
