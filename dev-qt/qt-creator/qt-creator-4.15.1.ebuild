@@ -74,6 +74,7 @@ CDEPEND="
 			sys-devel/clang:10
 		)
 		<sys-devel/clang-$((LLVM_MAX_SLOT + 1)):=
+		dev-libs/libclangformat-ide:12
 	)
 	designer? ( >=dev-qt/designer-${QT_PV} )
 	help? (
