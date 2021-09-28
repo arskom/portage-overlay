@@ -25,6 +25,7 @@ DEPEND="
     dev-qt/qtscript:5
     dev-qt/qtserialport:5
     dev-qt/qtsvg:5
+    dev-qt/qtcharts:5
     dev-qt/qttranslations:5"
 RDEPEND="${DEPEND}"
 
@@ -50,7 +51,6 @@ src_prepare() {
     sed -i "s:#LIBUSB_LIBS.*:LIBUSB_LIBS = -lusb:"                  src/gcconfig.pri || die
 
     # add in VLC support
-
     sed -i "s:#VLC_INSTALL.*:VLC_INSTALL = yes:"                    src/gcconfig.pri || die
     sed -i "s:#VLC_INCLUDE.*:VLC_INCLUDE = /usr/include:"           src/gcconfig.pri || die
     sed -i "s:#VLC_LIBS.*:VLC_LIBS = -lvlc -lvlccore:"              src/gcconfig.pri || die
@@ -58,6 +58,8 @@ src_prepare() {
 
     sed -i "s:DEFINES += GC_VIDEO_NONE:#DEFINES += GC_VIDEO_NONE:"  src/gcconfig.pri || die
     sed -i "s:#DEFINES += GC_VIDEO_VLC:DEFINES += GC_VIDEO_VLC:"    src/gcconfig.pri || die
+
+    echo "DEFINES += NOWEBKIT" >> src/gcconfig.pri || die
 
     sed -e "s:/usr/local/:/usr/:" qwt/qwtconfig.pri.in > qwt/qwtconfig.pri || die
 }
