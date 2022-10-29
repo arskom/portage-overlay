@@ -19,23 +19,16 @@ checkconfig() {
 start() {
     checkconfig || return 1
 
-    JAVA_HOME=`java-config --jre-home`
+    JAVA_HOME=$(
+           java-config --select-vm=openjdk-bin-11 --jre-home 2> /dev/null \
+        || java-config --select-vm=openjdk-bin-17 --jre-home 2> /dev/null )
+
     COMMAND=$JAVA_HOME/bin/java
 
-    JAVA_PARAMS="$GERRIT_JAVA_OPTIONS -DGERRIT_HOME=$GERRIT_HOME -jar $GERRIT_WAR"
+    JAVA_PARAMS="$GERRIT_JAVA_OPTIONS -jar $GERRIT_WAR"
 
-    # Don't use --daemon here, because in this case stop will not work
-    PARAMS="--logfile=/var/log/gerrit/gerrit.log"
-    [ -n "$GERRIT_PORT" ] && PARAMS="$PARAMS --httpPort=$GERRIT_PORT"
-    [ -n "$GERRIT_DEBUG_LEVEL" ] && PARAMS="$PARAMS --debug=$GERRIT_DEBUG_LEVEL"
-    [ -n "$GERRIT_HANDLER_STARTUP" ] && PARAMS="$PARAMS --handlerCountStartup=$GERRIT_HANDLER_STARTUP"
-    [ -n "$GERRIT_HANDLER_MAX" ] && PARAMS="$PARAMS --handlerCountMax=$GERRIT_HANDLER_MAX"
-    [ -n "$GERRIT_HANDLER_IDLE" ] && PARAMS="$PARAMS --handlerCountMaxIdle=$GERRIT_HANDLER_IDLE"
+    PARAMS="daemon -d $GERRIT_HOME"
     [ -n "$GERRIT_ARGS" ] && PARAMS="$PARAMS $GERRIT_ARGS"
-
-    if [ "$GERRIT_ENABLE_ACCESS_LOG" = "yes" ]; then
-        PARAMS="$PARAMS --accessLoggerClassName=winstone.accesslog.SimpleAccessLogger --simpleAccessLogger.format=combined --simpleAccessLogger.file=/var/log/gerrit/access_log"
-    fi
 
     ebegin "Starting ${SVCNAME}"
     start-stop-daemon --start --quiet --background \
