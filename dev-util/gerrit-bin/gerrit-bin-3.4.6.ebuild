@@ -15,7 +15,7 @@ KEYWORDS="amd64 x86 amd64-linux"
 IUSE=""
 
 RDEPEND="
-	>=virtual/jre-11"
+	>=virtual/jre-1.8"
 
 S=${WORKDIR}
 
