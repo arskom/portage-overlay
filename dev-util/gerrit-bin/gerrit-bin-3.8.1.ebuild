@@ -38,6 +38,6 @@ src_install() {
 
 	systemd_newunit "${FILESDIR}"/${PN}.service2 gerrit.service
 
-	fowners gerrit:gerrit /var/log/gerrit ${GERRIT_DIR} ${GERRIT_DIR}/home ${GERRIT_DIR}/backup
+	fowners gerrit:gerrit /var/log/gerrit ${GERRIT_DIR}
 }
 
