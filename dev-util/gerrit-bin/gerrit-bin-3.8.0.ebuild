@@ -1,30 +1,28 @@
-# Copyright 1999-2019 Gentoo Authors
+# Copyright 1999-2023 Gentoo Authors
 # Distributed under the terms of the GNU General Public License v2
 
-EAPI=7
+EAPI=8
 
-inherit user systemd
+inherit systemd
 
 DESCRIPTION="Code review and repository management solution for git"
 HOMEPAGE="https://www.gerritcodereview.com/"
 LICENSE="MIT"
 SRC_URI="https://gerrit-releases.storage.googleapis.com/${PN/-bin/}-${PV}.war -> ${P}.war"
-RESTRICT="mirror"
 SLOT="0"
 KEYWORDS="amd64 x86 amd64-linux"
 IUSE=""
 
-RDEPEND="
-	>=virtual/jre-1.8"
+DEPEND="acct-group/gerrit
+        acct-user/gerrit"
 
-S=${WORKDIR}
+RDEPEND="acct-group/gerrit
+        acct-user/gerrit
+        || ( virtual/jre:17 virtual/jre:11 )"
+
+S="${WORKDIR}"
 
 GERRIT_DIR=/var/lib/gerrit
-
-pkg_setup() {
-	enewgroup gerrit
-	enewuser gerrit -1 -1 ${GERRIT_DIR} gerrit
-}
 
 src_install() {
 	keepdir /var/log/gerrit ${GERRIT_DIR}/backup ${GERRIT_DIR}/home
@@ -42,3 +40,4 @@ src_install() {
 
 	fowners gerrit:gerrit /var/log/gerrit ${GERRIT_DIR} ${GERRIT_DIR}/home ${GERRIT_DIR}/backup
 }
+
